@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"github.com/kaar20/resturant_backend/database"
 	"github.com/kaar20/resturant_backend/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -17,7 +16,8 @@ import (
 )
 
 var ordersCollection *mongo.Collection = database.OpenCollection(database.Client, "orders")
-var validate = validator.New()
+
+// var validate = validator.New()
 
 func GetOrders() gin.HandlerFunc {
 	return func(c *gin.Context) {
