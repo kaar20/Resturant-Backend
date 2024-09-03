@@ -1,11 +1,20 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 
 func GetOrderItems() gin.HandlerFunc{
 	return func(c *gin.Context){
         // get all order items from db
+    }
+}
+
+func getOrderItemByOrder() gin.HandlerFunc{
+	return func(c *gin.Context){
+
     }
 }
 
@@ -31,6 +40,11 @@ func DeleteOrderItems() gin.HandlerFunc{
 
     }
 }
+
+func ItemByOrder(id string)(orderItems []primitive.M, err error){
+return 
+}
+
 
 
 // route.GET("/orderItems", controller.GetOrderItems())
