@@ -11,6 +11,8 @@ import (
 
 const ConnectionString = "mongodb://localhost:27017"
 
+// const ConnectionString = "mongodb+srv://codewithkar:tkWtuIT3jFSBXack@cluster0.exvfl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
 func DBinstance() *mongo.Client {
 	clientOption := options.Client().ApplyURI(ConnectionString)
 	client, err := mongo.Connect(context.Background(), clientOption) // establish a connection to the MongoDB server

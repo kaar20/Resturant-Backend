@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -44,39 +45,50 @@ func CreateOrder() gin.HandlerFunc {
 		var order models.Order
 
 		if err := c.BindJSON(&order); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		validation := validate.Struct(order)
-		if validation != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"Error": validation.Error()})
+		fmt.Println("Order data is : ", order)
+
+		validationErr := validate.Struct(order)
+
+		if validationErr != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
 			return
 		}
+
 		if order.Table_id != nil {
-			err := tableCollections.FindOne(ctx, bson.M{"order": order.Table_id}).Decode(&table)
+			// fmt.Println("order is : ", order.)
+			// fmt.Println("Table id is : ", order.Table_id)
+			err := tableCollection.FindOne(ctx, bson.M{"table_id": order.Table_id}).Decode(&table)
+			defer cancel()
 			if err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+				msg := fmt.Sprintf("message:Table was not found")
+				c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 				return
 			}
-
 		}
+
 		order.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		order.Updated_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
 		order.ID = primitive.NewObjectID()
 		order.Order_id = order.ID.Hex()
 
-		result, err := ordersCollection.InsertOne(ctx, order)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error inserting data into the database"})
+		result, insertErr := ordersCollection.InsertOne(ctx, order)
+
+		if insertErr != nil {
+			msg := fmt.Sprintf("order item was not created")
+			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			return
 		}
 
 		defer cancel()
 		c.JSON(http.StatusOK, result)
-
 	}
-
 }
+
 func GetOrder() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)

@@ -98,7 +98,7 @@ func CreateFood() gin.HandlerFunc {
 			return
 		}
 
-		err := menuCollection.FindOne(ctx, bson.M{"id": food.Food_id}).Decode(&menu)
+		err := menuCollection.FindOne(ctx, bson.M{"menu_id": food.Menu_id}).Decode(&menu)
 
 		if err != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Menu not found"})

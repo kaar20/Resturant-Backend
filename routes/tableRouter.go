@@ -11,5 +11,5 @@ func TableRoutes(route *gin.Engine) {
 	route.POST("/tables", controller.CreateTable())
 	route.GET("/tables/:id", controller.GetTable())
 	route.PATCH("/tables/:id", controller.UpdateTable())
-	route.DELETE("/tables/:id", controller.Deletetables())
+	// route.DELETE("/tables/:id", controller.Deletetables())
 }

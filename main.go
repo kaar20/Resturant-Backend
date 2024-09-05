@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kaar20/resturant_backend/middleware"
 	"github.com/kaar20/resturant_backend/routes"
 	// "go.mongodb.org/mongo-driver/mongo"
 )

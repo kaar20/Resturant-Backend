@@ -27,21 +27,22 @@ func GetMenus() gin.HandlerFunc {
 		defer cancel()
 
 		if err != nil {
-			c.JSON(500, gin.H{"error": "Error fetching data from the database"})
-			return
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching data from the database"})
+			// return
 		}
-		var allMenus bson.M
+		var allMenus []bson.M
 
 		if err = result.All(ctx, &allMenus); err != nil {
 			log.Fatal(err)
 			// c.JSON(/)
 
 		}
-		c.JSON(http.StatusOK, allMenus)
+		c.JSON(http.StatusOK, &allMenus)
 
 	}
 
 }
+
 func CreateMenus() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)

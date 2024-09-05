@@ -11,5 +11,5 @@ func OrderItemsRoutes(route *gin.Engine) {
 	route.POST("/orderItems", controller.CreateOrderItem())
 	route.GET("/orderItems/:id", controller.GetOrderItem())
 	route.PATCH("/orderItems/:id", controller.UpdateOrderItem())
-	route.DELETE("/orderItems/:id", controller.DeleteOrderItems())
+	// route.DELETE("/orderItems/:id", controller.DeleteOrderItems())
 }

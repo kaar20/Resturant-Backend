@@ -124,7 +124,7 @@ func GetInvoice() gin.HandlerFunc {
 		// c.JSON(http.StatusOK, invoice)
 		var invoiceView InvoiceViewFormat
 
-		allOrderItems, err := ItemByOrder(invoice.Order_id)
+		allOrderItems, err := ItemsByOrder(invoice.Order_id)
 		invoiceView.Order_id = invoice.Order_id
 		invoiceView.Payment_due_date = invoice.Payment_due_date
 		invoiceView.Payment_method = "null"
